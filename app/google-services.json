@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "193002500311",
+    "project_id": "newshubapp-45c2b",
+    "storage_bucket": "newshubapp-45c2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193002500311:android:f74934c49c81cf3dd78092",
+        "android_client_info": {
+          "package_name": "com.example.newshubapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193002500311-me47odqb2ttnkdk9kbmbmlnb5287sg6g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.newshubapp",
+            "certificate_hash": "a1246f55194c92c1e3d481be2667d4875144fdfc"
+          }
+        },
+        {
+          "client_id": "193002500311-1ue3o790me82ap553lr96ssfvcs7d2gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDai2JyurMGxT9XCM2FwHVTJoq8wmUjpfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193002500311-1ue3o790me82ap553lr96ssfvcs7d2gc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

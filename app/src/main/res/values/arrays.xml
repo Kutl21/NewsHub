@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Language options -->
+    <string-array name="languages">
+        <item>English</item>
+        <item>isiZulu</item>
+        <item>Sesotho</item>
+        <item>Afrikaans</item>
+    </string-array>
+
+    <!-- News categories -->
+    <string-array name="news_categories">
+        <item>General</item>
+        <item>Technology</item>
+        <item>Business</item>
+        <item>Sports</item>
+        <item>Science</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+    </string-array>
+
+    <!-- Category icons -->
+    <string-array name="category_icons">
+        <item>📰</item>
+        <item>💻</item>
+        <item>📈</item>
+        <item>⚽</item>
+        <item>🔬</item>
+        <item>🎬</item>
+        <item>🏥</item>
+    </string-array>
+
+    <!-- Free State Locations -->
+    <string-array name="free_state_locations">
+        <item>Bloemfontein</item>
+        <item>Welkom</item>
+        <item>Bethlehem</item>
+        <item>Kroonstad</item>
+        <item>Sasolburg</item>
+    </string-array>
+</resources>

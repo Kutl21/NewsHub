@@ -1,0 +1,20 @@
+<resources>
+    <!-- Existing strings -->
+    <string name="app_name">NewsHub</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="welcome">Welcome to NewsHub</string>
+    <string name="signup">Sign Up</string>
+    <string name="default_web_client_id">193002500311-1ue3o790me82ap553lr96ssfvcs7d2gc.apps.googleusercontent.com</string>
+
+    <!-- NEW: Add these -->
+    <string name="app_subtitle">Your News &amp; Weather Aggregator</string>
+    <string name="app_description">Free State Weather • Offline Reading • Bookmarks</string>
+    <string name="navigate_to_login">Navigating to log in</string>
+    <string name="registration_successful">Registration successful! Please log in.</string>
+</resources>
