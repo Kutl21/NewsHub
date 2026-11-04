@@ -2,6 +2,7 @@ package com.example.newshubapp.auth
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,9 +51,6 @@ class RegisterFragment : Fragment() {
         observeAuthState()
     }
 
-    /**
-     * Setup all click listeners
-     */
     private fun setupClickListeners() {
         binding.btnRegister.setOnClickListener {
             val username = binding.etUsername.text.toString().trim()
@@ -76,9 +74,6 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    /**
-     * Validate registration inputs
-     */
     private fun validateInputs(
         username: String,
         email: String,
@@ -97,7 +92,7 @@ class RegisterFragment : Fragment() {
             binding.etEmail.error = "Email is required"
             return false
         }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.etEmail.error = "Invalid email format"
             return false
         }
@@ -120,13 +115,6 @@ class RegisterFragment : Fragment() {
         return true
     }
 
-    /**
-     * Observe authentication state changes
-     *
-     * IMPORTANT: When registering, Firebase auto-signs-in the user.
-     * We DON'T want to navigate to Home in this case.
-     * Instead, we want to LOG THEM OUT and navigate to log in screen.
-     */
     private fun observeAuthState() {
         // Observe authentication state
         lifecycleScope.launch {
@@ -154,7 +142,6 @@ class RegisterFragment : Fragment() {
                             // Reset flag
                             justRegistered = false
                         } else {
-                            // This shouldn't happen on register screen — but handle safely
                             Log.d(TAG, "User already authenticated: ${state.user.email}")
                         }
                     }
@@ -175,15 +162,13 @@ class RegisterFragment : Fragment() {
             }
         }
 
-        // Observe success messages (we hide these since we handle the flow)
+        // Observe success messages
         authViewModel.successMessage.observe(viewLifecycleOwner) { message ->
-            // Intentionally not showing Toast here — the flow handles messaging
             Log.d(TAG, "Success: $message")
         }
 
-        // Observe loading state
+        // ✅ FIXED: Removed progressBar reference to fix compilation error
         authViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.btnRegister.isEnabled = !isLoading
         }
     }
@@ -193,3 +178,4 @@ class RegisterFragment : Fragment() {
         _binding = null
     }
 }
+

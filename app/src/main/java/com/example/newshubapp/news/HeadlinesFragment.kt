@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newshubapp.R
-import com.example.newshubapp.data.models.Article
 import com.example.newshubapp.data.models.WeatherCodes
 import com.example.newshubapp.data.models.WeatherResponse
 import com.example.newshubapp.databinding.FragmentHeadlinesBinding
@@ -63,8 +62,8 @@ class HeadlinesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
+        // FIXED: Removed onItemClick since the Adapter handles opening the URL directly now
         adapter = NewsAdapter(
-            onItemClick = { article -> navigateToDetail(article) },
             onBookmarkClick = { article -> viewModel.toggleBookmark(article) }
         )
 
@@ -271,13 +270,8 @@ class HeadlinesFragment : Fragment() {
     }
 
     // ==========================================================
-    // NAVIGATION & UI
+    // UI HELPERS
     // ==========================================================
-
-    private fun navigateToDetail(article: Article) {
-        Log.d(TAG, "Navigating to detail: ${article.title}")
-        Toast.makeText(requireContext(), "Opening: ${article.title}", Toast.LENGTH_SHORT).show()
-    }
 
     private fun showNewsList() {
         binding.rvNews.visibility = View.VISIBLE

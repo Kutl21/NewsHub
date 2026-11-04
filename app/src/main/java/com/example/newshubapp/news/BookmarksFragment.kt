@@ -48,15 +48,10 @@ class BookmarksFragment : Fragment() {
      */
     private fun setupRecyclerView() {
         adapter = NewsAdapter(
-            onItemClick = { article ->
-                Log.d(TAG, "Bookmark clicked: ${article.title}")
-                // Navigate to detail
-            },
             onBookmarkClick = { article ->
                 newsViewModel.toggleBookmark(article)
             }
         )
-
         binding.rvBookmarks.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@BookmarksFragment.adapter

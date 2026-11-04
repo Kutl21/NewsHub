@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,10 +20,8 @@ import java.util.*
 
 /**
  * NewsAdapter for displaying articles in RecyclerView
- * Uses ListAdapter with DiffUtil for efficient updates
  */
 class NewsAdapter(
-    private val onItemClick: (Article) -> Unit,
     private val onBookmarkClick: (Article) -> Unit
 ) : ListAdapter<Article, NewsAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
@@ -39,9 +39,6 @@ class NewsAdapter(
         holder.bind(getItem(position))
     }
 
-    /**
-     * ViewHolder for news items
-     */
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val ivNewsImage: ImageView = itemView.findViewById(R.id.ivNewsImage)
@@ -52,8 +49,6 @@ class NewsAdapter(
         private val btnBookmark: ImageButton = itemView.findViewById(R.id.btnBookmark)
 
         fun bind(article: Article) {
-            Log.d(TAG, "Binding article: ${article.title}")
-
             tvTitle.text = article.title
 
             tvDescription.text = if (!article.description.isNullOrEmpty()) {
@@ -77,13 +72,19 @@ class NewsAdapter(
 
             updateBookmarkIcon(article.isBookmarked)
 
+            // FIX: Open the article URL directly inside the adapter
             itemView.setOnClickListener {
-                Log.d(TAG, "Article clicked: ${article.title}")
-                onItemClick(article)
+                Log.d(TAG, "Opening article URL: ${article.url}")
+                try {
+                    val customTabsIntent = CustomTabsIntent.Builder().build()
+                    customTabsIntent.launchUrl(itemView.context, android.net.Uri.parse(article.url))
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error opening URL: ${e.message}")
+                    Toast.makeText(itemView.context, "Could not open link", Toast.LENGTH_SHORT).show()
+                }
             }
 
             btnBookmark.setOnClickListener {
-                Log.d(TAG, "Bookmark clicked: ${article.title}")
                 onBookmarkClick(article)
             }
         }
@@ -123,7 +124,6 @@ class NewsAdapter(
                 "Unknown"
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error formatting time: ${e.message}")
             "Unknown"
         }
     }

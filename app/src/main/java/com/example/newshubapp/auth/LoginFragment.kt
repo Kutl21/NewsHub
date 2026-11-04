@@ -48,7 +48,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ✅ If user is already signed in, skip login and go straight home
         if (authViewModel.isAuthenticated()) {
             Log.d(TAG, "User already authenticated, navigating to home")
             findNavController().navigate(R.id.action_login_to_home)
@@ -60,9 +59,6 @@ class LoginFragment : Fragment() {
         observeAuthState()
     }
 
-    /**
-     * Configure Google Sign-In
-     */
     private fun setupGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -73,11 +69,7 @@ class LoginFragment : Fragment() {
         Log.d(TAG, "Google Sign-In configured")
     }
 
-    /**
-     * Setup all click listeners
-     */
     private fun setupClickListeners() {
-        // Login button click
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -88,19 +80,16 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Register link click
         binding.tvRegisterLink.setOnClickListener {
             Log.d(TAG, "Navigating to registration")
             findNavController().navigate(R.id.action_login_to_register)
         }
 
-        // Google Sign-In button click
         binding.btnGoogleSignIn.setOnClickListener {
             Log.d(TAG, "Google Sign-In button clicked")
             signInWithGoogle()
         }
 
-        // Forgot password click
         binding.tvForgotPassword.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             if (email.isNotEmpty()) {
@@ -112,9 +101,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    /**
-     * Validate login inputs
-     */
     private fun validateInputs(email: String, password: String): Boolean {
         if (email.isEmpty()) {
             binding.etEmail.error = "Email is required"
@@ -135,17 +121,11 @@ class LoginFragment : Fragment() {
         return true
     }
 
-    /**
-     * Start Google Sign-In intent
-     */
     private fun signInWithGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
-    /**
-     * Handle Google Sign-In result
-     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -164,11 +144,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    /**
-     * Observe authentication state changes
-     */
     private fun observeAuthState() {
-        // Observe authentication state
         lifecycleScope.launch {
             authViewModel.authState.collect { state ->
                 when (state) {
@@ -179,7 +155,6 @@ class LoginFragment : Fragment() {
                             "Welcome ${state.user.displayName ?: state.user.email}",
                             Toast.LENGTH_SHORT
                         ).show()
-                        // Navigate to home screen
                         findNavController().navigate(R.id.action_login_to_home)
                     }
                     is AuthState.Unauthenticated -> {
@@ -189,7 +164,6 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Observe error messages
         authViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             if (!message.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
@@ -197,16 +171,14 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Observe success messages
         authViewModel.successMessage.observe(viewLifecycleOwner) { message ->
             if (!message.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Observe loading state
+        // FIXED: Removed the progressBar reference so the build doesn't crash
         authViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.btnLogin.isEnabled = !isLoading
             binding.btnGoogleSignIn.isEnabled = !isLoading
         }
